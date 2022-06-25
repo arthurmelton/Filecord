@@ -121,7 +121,7 @@ impl EventHandler for Handler {
             let mut e = ZlibEncoder::new(Vec::new(), Compression::default());
             e.write_all(returns.as_bytes()).unwrap();
             let compressed = base64::encode(e.finish().unwrap());
-            pb.finish_print(format!("{}{}", base, compressed.as_str()).as_str());
+            pb.finish_print(format!("{}{}\n", base, compressed.as_str()).as_str());
         }
         process::exit(1);
     }
