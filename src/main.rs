@@ -1,19 +1,20 @@
-use clap::{App, Arg};
-use lazy_static::lazy_static;
-use pbr::ProgressBar;
-use serenity::async_trait;
-use serenity::client::EventHandler;
-use serenity::model::id::ChannelId;
-use serenity::model::prelude::Ready;
-use serenity::prelude::Context;
-use serenity::Client;
 use std::fs::File;
 use std::io::{Read, Write};
 use std::io::{Seek, SeekFrom};
 use std::path::PathBuf;
 use std::process;
+
+use clap::{App, Arg};
 use flate2::Compression;
 use flate2::write::ZlibEncoder;
+use lazy_static::lazy_static;
+use pbr::ProgressBar;
+use serenity::async_trait;
+use serenity::Client;
+use serenity::client::EventHandler;
+use serenity::model::id::ChannelId;
+use serenity::model::prelude::Ready;
+use serenity::prelude::Context;
 
 lazy_static! {
     pub static ref MATCHES: clap::parser::ArgMatches = App::new("Sharex")
@@ -87,25 +88,36 @@ impl EventHandler for Handler {
             let mut pb = ProgressBar::new((total * 2) as u64);
             pb.format("╢▌▌░╟");
             let mut i = 0;
-            let mut returns = format!("{}&{}", urlencoding::encode(PathBuf::from(MATCHES.value_of("Input").unwrap()).file_name().unwrap().to_str().unwrap()), MATCHES
-                .value_of("Channel")
-                .unwrap());
+            let mut returns = format!(
+                "{}&{}",
+                urlencoding::encode(
+                    PathBuf::from(MATCHES.value_of("Input").unwrap())
+                        .file_name()
+                        .unwrap()
+                        .to_str()
+                        .unwrap()
+                ),
+                MATCHES.value_of("Channel").unwrap()
+            );
             while total - i > 0 {
                 let mut buf = Vec::new();
                 let mut temp = file.try_clone().expect("cant clone").take(8388608);
-                file.seek(SeekFrom::Start((8388608 * i) as u64)).expect("Failed to seek");
+                file.seek(SeekFrom::Start((8388608 * i) as u64))
+                    .expect("Failed to seek");
                 temp.read_to_end(&mut buf).expect("Didn't read enough");
                 pb.inc();
                 let mut message = None;
                 let mut attachments = None;
                 let mut go_again = true;
                 while go_again {
-                    message = Some(channel
-                        .send_message(&ctx.http, |m| {
-                            m.add_file((buf.as_slice(), format!("part_{}", i).as_str()));
-                            m
-                        })
-                        .await);
+                    message = Some(
+                        channel
+                            .send_message(&ctx.http, |m| {
+                                m.add_file((buf.as_slice(), format!("part_{}", i).as_str()));
+                                m
+                            })
+                            .await,
+                    );
                     go_again = message.as_ref().unwrap().is_err();
                     if !go_again {
                         attachments = Some(message.unwrap().unwrap().attachments);
