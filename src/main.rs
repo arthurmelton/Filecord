@@ -132,6 +132,26 @@ impl EventHandler for Handler {
             let base = "https://amtitan-sharex.herokuapp.com/";
             let mut e = ZlibEncoder::new(Vec::new(), Compression::default());
             e.write_all(returns.as_bytes()).unwrap();
+            let data = e.finish().unwrap();
+            let mut message = None;
+            let mut attachments = None;
+            let mut go_again = true;
+            while go_again {
+                message = Some(
+                    channel
+                        .send_message(&ctx.http, |m| {
+                            m.add_file((data.as_slice(), "data"));
+                            m
+                        })
+                        .await,
+                );
+                go_again = message.as_ref().unwrap().is_err();
+                if !go_again {
+                    attachments = Some(message.unwrap().unwrap().attachments);
+                }
+            }
+            let mut e = ZlibEncoder::new(Vec::new(), Compression::default());
+            e.write_all(format!("{}&{}", channel, attachments.unwrap()[0].id.0).as_ref()).unwrap();
             let compressed = base64::encode(e.finish().unwrap());
             pb.finish_print(format!("{}{}\n", base, compressed.as_str()).as_str());
         }

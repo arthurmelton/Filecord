@@ -27,6 +27,14 @@ fn main() {
             z.write_all(&base64::decode(&url).unwrap()).unwrap();
             writer = z.finish().unwrap();
             let text = String::from_utf8(writer.clone()).expect("String parsing error");
+            let decompressed: Vec<&str> = text.split("&").collect();
+            let mut buffer = Vec::new();
+            ureq::get(&format!("https://cdn.discordapp.com/attachments/{}/{}/data", decompressed.get(0).unwrap(), decompressed.get(1).unwrap())).call().unwrap().into_reader().read_to_end(&mut buffer).unwrap();
+            let mut writer = Vec::new();
+            let mut z = ZlibDecoder::new(writer);
+            z.write_all(&buffer).unwrap();
+            writer = z.finish().unwrap();
+            let text = String::from_utf8(writer.clone()).expect("String parsing error");
             let mut decompressed: Vec<&str> = text.split("&").collect();
             let file_name = decode(decompressed[0]).unwrap();
             decompressed.remove(0);
