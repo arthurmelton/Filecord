@@ -151,7 +151,8 @@ impl EventHandler for Handler {
                 }
             }
             let mut e = ZlibEncoder::new(Vec::new(), Compression::default());
-            e.write_all(format!("{}&{}", channel, attachments.unwrap()[0].id.0).as_ref()).unwrap();
+            e.write_all(format!("{}&{}", channel, attachments.unwrap()[0].id.0).as_ref())
+                .unwrap();
             let compressed = base64::encode(e.finish().unwrap());
             pb.finish_print(format!("{}{}\n", base, compressed.as_str()).as_str());
         }
