@@ -5,4 +5,4 @@ https://user-images.githubusercontent.com/29708070/175784402-3fd7ef1b-371a-4548-
 
 # Stats (what I get)
 - Upload: 4mbs
-- Download: 100mbs
+- Download: 20mbs
