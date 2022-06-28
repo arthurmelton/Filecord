@@ -43,6 +43,7 @@ fn main() {
                     }
                 }
             }
+            println!("{}", messaging_platform);
             let url = response
                 .split(" ")
                 .nth(1)
@@ -88,36 +89,6 @@ fn main() {
             decompressed.remove(0);
             let channel = decompressed[0];
             decompressed.remove(0);
-<<<<<<< HEAD
-            let mut length:usize = 8388608*(decompressed.len()-1);
-            let mut buffer = Vec::new();
-            ureq::get(&format!(
-                "https://cdn.discordapp.com/attachments/{}/{}/part_{}",
-                channel, decompressed.last().unwrap(), decompressed.len()-1
-            ))
-                .call()
-                .unwrap()
-                .into_reader()
-                .read_to_end(&mut buffer)
-                .unwrap();
-            length += buffer.len();
-            drop(buffer);
-            stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Disposition: attachment; filename=\"{}\"\r\nContent-Length: {}\r\n\r\n", file_name, length).as_bytes()).unwrap();
-            let mut index = 0;
-            for id in decompressed {
-                let mut buffer = Vec::new();
-                ureq::get(&format!(
-                    "https://cdn.discordapp.com/attachments/{}/{}/part_{}",
-                    channel, id, index
-                ))
-                    .call()
-                    .unwrap()
-                    .into_reader()
-                    .read_to_end(&mut buffer)
-                    .unwrap();
-                stream.write(&buffer).unwrap();
-                index += 1;
-=======
             if messaging_platform {
                 stream.write(format!("HTTP/1.1 200 Ok\r\n\r\n
                 <!DOCTYPE html>
@@ -127,24 +98,35 @@ fn main() {
                     <meta name=\"description\" content=\"Sharex is a program to share large files for free using discord\" />
                 </head>", file_name).as_bytes()).unwrap();
             } else {
-                stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Disposition: attachment; filename=\"{}\"\r\n\r\n", file_name).as_bytes()).unwrap();
-                let mut index = 0;
-                for id in decompressed {
-                    let mut buffer = Vec::new();
+                let mut length: usize = 8388608 * (decompressed.len() - 1);
+                let mut buffer = Vec::new();
                     ureq::get(&format!(
                         "https://cdn.discordapp.com/attachments/{}/{}/part_{}",
-                        channel, id, index
+                        channel, decompressed.last().unwrap(), decompressed.len()-1
                     ))
                         .call()
                         .unwrap()
                         .into_reader()
                         .read_to_end(&mut buffer)
                         .unwrap();
-                    stream.write(&buffer).unwrap();
-                    index += 1;
+                length+= buffer.len();
+                    stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Disposition: attachment; filename=\"{}\"\r\nContent-Length: {}\r\n\r\n", file_name, length).as_bytes()).unwrap();
+                    let mut index = 0;
+                    for id in decompressed {
+                        let mut buffer = Vec::new();
+                        ureq::get(&format!(
+                            "https://cdn.discordapp.com/attachments/{}/{}/part_{}",
+                            channel, id, index
+                        ))
+                            .call()
+                            .unwrap()
+                            .into_reader()
+                            .read_to_end(&mut buffer)
+                            .unwrap();
+                        stream.write(&buffer).unwrap();
+                        index += 1;
+                    }
                 }
->>>>>>> 4136c882342c7040c449742f0d6de04b665c6bb6
-            }
             stream.flush().unwrap();
         });
     }
