@@ -25,6 +25,24 @@ fn main() {
                 total.push(i);
             }
             let response: String = String::from_utf8_lossy(&total).to_string();
+            let messaging_platforms_useragent = ["bot", "whatsapp", "snapchat", "messenger"];
+            let mut messaging_platform = false;
+            for i in response
+                .split("\r\n\r\n")
+                .nth(0)
+                .unwrap()
+                .to_lowercase()
+                .lines()
+            {
+                if i.starts_with("user-agent") {
+                    for x in messaging_platforms_useragent {
+                        if i.contains(x) {
+                            messaging_platform = true;
+                            break;
+                        }
+                    }
+                }
+            }
             let url = response
                 .split(" ")
                 .nth(1)
@@ -70,6 +88,7 @@ fn main() {
             decompressed.remove(0);
             let channel = decompressed[0];
             decompressed.remove(0);
+<<<<<<< HEAD
             let mut length:usize = 8388608*(decompressed.len()-1);
             let mut buffer = Vec::new();
             ureq::get(&format!(
@@ -98,6 +117,33 @@ fn main() {
                     .unwrap();
                 stream.write(&buffer).unwrap();
                 index += 1;
+=======
+            if messaging_platform {
+                stream.write(format!("HTTP/1.1 200 Ok\r\n\r\n
+                <!DOCTYPE html>
+                <head>
+                    <title>Sharex - {}</title>
+                    <meta property=\"og:type\" content=\"website\" />
+                    <meta name=\"description\" content=\"Sharex is a program to share large files for free using discord\" />
+                </head>", file_name).as_bytes()).unwrap();
+            } else {
+                stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Disposition: attachment; filename=\"{}\"\r\n\r\n", file_name).as_bytes()).unwrap();
+                let mut index = 0;
+                for id in decompressed {
+                    let mut buffer = Vec::new();
+                    ureq::get(&format!(
+                        "https://cdn.discordapp.com/attachments/{}/{}/part_{}",
+                        channel, id, index
+                    ))
+                        .call()
+                        .unwrap()
+                        .into_reader()
+                        .read_to_end(&mut buffer)
+                        .unwrap();
+                    stream.write(&buffer).unwrap();
+                    index += 1;
+                }
+>>>>>>> 4136c882342c7040c449742f0d6de04b665c6bb6
             }
             stream.flush().unwrap();
         });
