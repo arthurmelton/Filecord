@@ -43,7 +43,6 @@ fn main() {
                     }
                 }
             }
-            println!("{}", messaging_platform);
             let url = response
                 .split(" ")
                 .nth(1)
