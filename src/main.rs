@@ -150,15 +150,18 @@ impl EventHandler for Handler {
                     attachments = Some(message.unwrap().unwrap().attachments);
                 }
             }
-            let char_list: Vec<char> = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".chars().collect();
+            let char_list: Vec<char> =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+                    .chars()
+                    .collect();
             let mut returns = "".to_string();
             returns.push(*char_list.get(channel.0.to_string().len()).unwrap());
             for num in [channel.0, attachments.unwrap()[0].id.0] {
                 let mut index = 0;
                 loop {
-                    let x = num/(62_u64.pow(index))%62;
+                    let x = num / (62_u64.pow(index)) % 62;
                     returns.push(*char_list.get(x as usize).unwrap());
-                    index+=1;
+                    index += 1;
                     if index == 11 {
                         break;
                     }

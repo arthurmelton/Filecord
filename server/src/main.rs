@@ -59,10 +59,10 @@ fn main() {
             let mut returns = [0 as u64; 2];
             let mut real_first_length = 0;
             for x in 0..2 {
-                let mut num:u64 = 0;
+                let mut num: u64 = 0;
                 while (x == 0 && num.to_string().len() < first_length) || (x == 1 && url.len() > index) {
-                    num+=char_list.iter().position(|c| *c == url.chars().nth(index).unwrap()).unwrap() as u64*(62_u64.pow(index as u32-1-(x*real_first_length - x*1) as u32));
-                    index+=1;
+                    num += char_list.iter().position(|c| *c == url.chars().nth(index).unwrap()).unwrap() as u64 * (62_u64.pow(index as u32 - 1 - (x * real_first_length - x * 1) as u32));
+                    index += 1;
                 }
                 returns[x as usize] = num;
                 real_first_length = index;
@@ -101,33 +101,33 @@ fn main() {
             } else {
                 let mut length: usize = 8388608 * (decompressed.len() - 1);
                 let mut buffer = Vec::new();
+                ureq::get(&format!(
+                    "https://cdn.discordapp.com/attachments/{}/{}/part_{}",
+                    channel, decompressed.last().unwrap(), decompressed.len() - 1
+                ))
+                    .call()
+                    .unwrap()
+                    .into_reader()
+                    .read_to_end(&mut buffer)
+                    .unwrap();
+                length += buffer.len();
+                stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Disposition: attachment; filename=\"{}\"\r\nContent-Length: {}\r\n\r\n", file_name, length).as_bytes()).unwrap();
+                let mut index = 0;
+                for id in decompressed {
+                    let mut buffer = Vec::new();
                     ureq::get(&format!(
                         "https://cdn.discordapp.com/attachments/{}/{}/part_{}",
-                        channel, decompressed.last().unwrap(), decompressed.len()-1
+                        channel, id, index
                     ))
                         .call()
                         .unwrap()
                         .into_reader()
                         .read_to_end(&mut buffer)
                         .unwrap();
-                length+= buffer.len();
-                    stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Disposition: attachment; filename=\"{}\"\r\nContent-Length: {}\r\n\r\n", file_name, length).as_bytes()).unwrap();
-                    let mut index = 0;
-                    for id in decompressed {
-                        let mut buffer = Vec::new();
-                        ureq::get(&format!(
-                            "https://cdn.discordapp.com/attachments/{}/{}/part_{}",
-                            channel, id, index
-                        ))
-                            .call()
-                            .unwrap()
-                            .into_reader()
-                            .read_to_end(&mut buffer)
-                            .unwrap();
-                        stream.write(&buffer).unwrap();
-                        index += 1;
-                    }
+                    stream.write(&buffer).unwrap();
+                    index += 1;
                 }
+            }
             stream.flush().unwrap();
         });
     }
