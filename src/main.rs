@@ -157,9 +157,6 @@ impl EventHandler for Handler {
                 let mut index = 0;
                 loop {
                     let x = num/(62_u64.pow(index))%62;
-                    if x == 0 {
-                        break;
-                    }
                     returns.push(*char_list.get(x as usize).unwrap());
                     index+=1;
                     if index == 11 {
