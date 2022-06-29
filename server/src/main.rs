@@ -89,13 +89,15 @@ fn main() {
             let channel = decompressed[0];
             decompressed.remove(0);
             if messaging_platform {
-                stream.write(format!("HTTP/1.1 200 Ok\r\n\r\n
-                <!DOCTYPE html>
-                <head>
-                    <title>Sharex - {}</title>
-                    <meta property=\"og:type\" content=\"website\" />
-                    <meta name=\"description\" content=\"Sharex is a program to share large files for free using discord\" />
-                </head>", file_name).as_bytes()).unwrap();
+                stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Length: 240\r\nContent-Type: text/html; charset=UTF-8\r\n\r
+<!DOCTYPE html>
+<head>
+    <title>Sharex - {}</title>
+    <meta property=\"og:type\" content=\"website\" />
+    <meta name=\"description\" content=\"Sharex is a program to share large files for free using discord\" />
+</head>
+<body>
+</body>", file_name).as_bytes()).unwrap();
             } else {
                 let mut length: usize = 8388608 * (decompressed.len() - 1);
                 let mut buffer = Vec::new();
