@@ -53,15 +53,27 @@ fn main() {
                 .collect::<String>()
                 .trim()
                 .to_string();
-            let char_list: Vec<char> = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".chars().collect();
-            let first_length = char_list.iter().position(|c| *c == url.chars().nth(0).unwrap()).unwrap();
+            let char_list: Vec<char> =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+                    .chars()
+                    .collect();
+            let first_length = char_list
+                .iter()
+                .position(|c| *c == url.chars().nth(0).unwrap())
+                .unwrap();
             let mut index = 1;
             let mut returns = [0 as u64; 2];
             let mut real_first_length = 0;
             for x in 0..2 {
                 let mut num: u64 = 0;
-                while (x == 0 && num.to_string().len() < first_length) || (x == 1 && url.len() > index) {
-                    num += char_list.iter().position(|c| *c == url.chars().nth(index).unwrap()).unwrap() as u64 * (62_u64.pow(index as u32 - 1 - (x * real_first_length - x * 1) as u32));
+                while (x == 0 && num.to_string().len() < first_length)
+                    || (x == 1 && url.len() > index)
+                {
+                    num += char_list
+                        .iter()
+                        .position(|c| *c == url.chars().nth(index).unwrap())
+                        .unwrap() as u64
+                        * (62_u64.pow(index as u32 - 1 - (x * real_first_length - x * 1) as u32));
                     index += 1;
                 }
                 returns[x as usize] = num;
@@ -70,8 +82,7 @@ fn main() {
             let mut buffer = Vec::new();
             ureq::get(&format!(
                 "https://cdn.discordapp.com/attachments/{}/{}/data",
-                returns[0],
-                returns[1]
+                returns[0], returns[1]
             ))
                 .call()
                 .unwrap()
@@ -86,7 +97,7 @@ fn main() {
             let mut decompressed: Vec<&str> = text.split("&").collect();
             let file_name = decode(decompressed[0]).unwrap();
             decompressed.remove(0);
-            let channel = decompressed[0];
+            let length = decompressed[0];
             decompressed.remove(0);
             if messaging_platform {
                 stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Length: 240\r\nContent-Type: text/html; charset=UTF-8\r\n\r
@@ -99,25 +110,13 @@ fn main() {
 <body>
 </body>", file_name).as_bytes()).unwrap();
             } else {
-                let mut length: usize = 8388608 * (decompressed.len() - 1);
-                let mut buffer = Vec::new();
-                ureq::get(&format!(
-                    "https://cdn.discordapp.com/attachments/{}/{}/part_{}",
-                    channel, decompressed.last().unwrap(), decompressed.len() - 1
-                ))
-                    .call()
-                    .unwrap()
-                    .into_reader()
-                    .read_to_end(&mut buffer)
-                    .unwrap();
-                length += buffer.len();
                 stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Disposition: attachment; filename=\"{}\"\r\nContent-Length: {}\r\n\r\n", file_name, length).as_bytes()).unwrap();
                 let mut index = 0;
                 for id in decompressed {
                     let mut buffer = Vec::new();
                     ureq::get(&format!(
                         "https://cdn.discordapp.com/attachments/{}/{}/part_{}",
-                        channel, id, index
+                        returns[0], id, index
                     ))
                         .call()
                         .unwrap()
