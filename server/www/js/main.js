@@ -16,7 +16,7 @@ async function upload() {
         send_message("Upload failed", "Please add a url to discord webhook url box");
         return;
     }
-    if (!/https:\/\/[^.]*\.discord\.com\/api\/webhooks\/[0-9]*\/[^\/]*/.test(document.getElementById('urlInput').value)) {
+    if (!/https:\/\/[^.]*\.?discord\.com\/api\/webhooks\/[0-9]*\/[^\/]*/.test(document.getElementById('urlInput').value)) {
         send_message("Upload failed", "This is not a correct webhook url it should look something like https://discord.com/api/webhooks/...");
         return;
     }
