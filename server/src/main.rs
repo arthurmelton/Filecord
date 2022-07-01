@@ -41,9 +41,11 @@ fn main() {
                 .trim()
                 .to_string();
             if url == "" || Asset::get(&url).is_some() {
-                let data = Asset::get(if url == "" { "index.html" } else { &url }).unwrap().data;
+                let url = if url == "" { "index.html" } else { &url };
+                let data = Asset::get(url).unwrap().data;
                 let mut buf = Vec::new();
-                for i in format!("HTTP/1.1 200 Ok\r\nContent-Length: {}\r\n\r\n", data.len()).bytes() {
+                let guess = mime_guess::from_path(url).first_or_octet_stream();
+                for i in format!("HTTP/1.1 200 Ok\r\nContent-Length: {}\r\nContent-Type: {}/{}\r\n\r\n", data.len(), guess.type_(), guess.subtype()).bytes() {
                     buf.push(i);
                 }
                 for i in data.iter() {
