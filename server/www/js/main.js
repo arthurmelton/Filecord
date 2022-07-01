@@ -1,5 +1,6 @@
 function init() {
     document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+    fetch("https://discord.com/api/v10/invites/discord-developers").catch(_ => send_message('Error', 'I am sorry but you browser cant make requests to discord. Chromium based browsers work but others may work too'));
 }
 
 function handleFileSelect() {
