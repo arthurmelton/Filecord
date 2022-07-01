@@ -16,6 +16,7 @@
         <label for="fileInput">
             <div class="text-blue-500 w-[100%] h-[calc(100%-64px)] cursor-pointer" id="drag">
                 <div class="w-[33%] h-[calc(33%-24px)] center">
+                    <!-- SVG from https://www.svgrepo.com/ -->
                     <svg class="relative w-[100%] h-[calc(100%-24px)] top-[12px]" id="image" style="enable-background:new 0 0 486.3 486.3;" version="1.1" viewBox="0 0 486.3 486.3"
                          x="0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
                          y="0px">
@@ -40,7 +41,29 @@
             </div>
         </label>
         <div class="h-[32px] flex">
-            <span class="ml-1 mr-2 mt-1 float-left">Discord Webhook url: </span>
+            <div class="ml-1 mr-2 mt-1 float-left flex">
+                <span class="mr-1">Discord Webhook URL</span><?xml version="1.0" encoding="iso-8859-1"?>
+                <!-- SVG from https://www.svgrepo.com/ -->
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" class="h-[24px] fill-slate-700 cursor-pointer" onclick="send_message('Discord Webhook URL', 'To get a discord webhook URL what you are going to have to do is go to a server you own or make a new server. Make a channel only you can see because this channel is going to get spammed with a lot of files. Go to the settings of the channel then click on integrations. Once you are in integrations what you will click is webhooks. Now click the button called New Webhook. Now click Copy Webhook URL and paste it into the textbox! (You can delete the webhook but if you delete the server or the channel then the url will not work anymore)')">
+                <g>
+                    <g>
+                        <g>
+                            <path d="M255.996,384.004c-11.776,0-21.333,9.557-21.333,21.333s9.557,21.333,21.333,21.333c11.776,0,21.333-9.557,21.333-21.333
+                                S267.772,384.004,255.996,384.004z"/>
+                            <path d="M437.016,74.984c-99.979-99.979-262.075-99.979-362.033,0.002c-99.978,99.978-99.978,262.073,0.004,362.031
+                                c99.954,99.978,262.05,99.978,362.029-0.002C536.995,337.059,536.995,174.964,437.016,74.984z M406.848,406.844
+                                c-83.318,83.318-218.396,83.318-301.691,0.004c-83.318-83.299-83.318-218.377-0.002-301.693
+                                c83.297-83.317,218.375-83.317,301.691,0S490.162,323.549,406.848,406.844z"/>
+                            <path d="M271.295,86.684c-53.025-9.308-100.632,31.063-100.632,83.987c0,11.782,9.551,21.333,21.333,21.333
+                                s21.333-9.551,21.333-21.333c0-26.507,23.776-46.67,50.584-41.964c16.882,2.968,31.079,17.165,34.048,34.052
+                                c3.299,18.783-5.487,36.533-21.417,45.315c-26.377,14.544-41.882,43.645-41.882,74.746v37.184
+                                c0,11.782,9.551,21.333,21.333,21.333c11.782,0,21.333-9.551,21.333-21.333V282.82c0-16.217,7.725-30.716,19.816-37.382
+                                c31.705-17.479,49.333-53.091,42.839-90.063C333.906,120.803,305.864,92.761,271.295,86.684z"/>
+                        </g>
+                    </g>
+                </g>
+            </div>
             <input class="inputurl rounded-sm flex-grow h-[24px] mt-1 bg-slate-700" id="urlInput" name="url" placeholder="https://discord.com/api/webhooks/..."
                    type="input"/>
         </div>
