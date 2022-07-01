@@ -29,11 +29,11 @@ async function upload() {
     while (file.size > offset) {
         let boundary = "--------";
         let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for(i = 0; i<20; i++) {
+        for (i = 0; i < 20; i++) {
             boundary += chars[Math.floor(Math.random() * chars.length)];
         }
         let sends = `--${boundary}\r\nContent-Disposition: form-data; name=\"file1\"; filename=\"${"part_" + index}\"\r\nContent-Type: application/octet-stream\r\n\r\n`;
-        let send = new Blob([sends, file.slice(offset, offset+8388608-sends.length-34), `\r\n--${boundary}--`]);
+        let send = new Blob([sends, file.slice(offset, offset + 8388608 - sends.length - 34), `\r\n--${boundary}--`]);
         let response = await fetch(url, {
             method: "POST",
             body: send,
@@ -42,17 +42,17 @@ async function upload() {
             }
         });
         if (response.ok) {
-            offset += 8388608-sends.length-34;
+            offset += 8388608 - sends.length - 34;
             returns.push(JSON.parse(await response.text())["attachments"][0]["id"]);
             index++;
             bar.style.width = `${offset / file.size * 100}%`;
-        }   else {
+        } else {
             await new Promise(r => setTimeout(r, 1000));
         }
     }
     let boundary = "--------";
     let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for(i = 0; i<20; i++) {
+    for (i = 0; i < 20; i++) {
         boundary += chars[Math.floor(Math.random() * chars.length)];
     }
     let send = new Blob([`--${boundary}\r\nContent-Disposition: form-data; name=\"file1\"; filename=\"data\"\r\nContent-Type: application/octet-stream\r\n\r\n`, pako.deflate(returns.join("&")), `\r\n--${boundary}--`]);
@@ -67,8 +67,8 @@ async function upload() {
     let base = "https://amtitan-sharex.herokuapp.com/";
     let char_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     base += char_list[convert[0].length];
-    for(i = 0; i<2; i++) {
-        for(let x = 0; x<11;x++) {
+    for (i = 0; i < 2; i++) {
+        for (let x = 0; x < 11; x++) {
             base += char_list[BigInt(convert[i]) / 62n ** BigInt(x) % 62n];
         }
     }

@@ -45,7 +45,14 @@ fn main() {
                 let data = Asset::get(url).unwrap().data;
                 let mut buf = Vec::new();
                 let guess = mime_guess::from_path(url).first_or_octet_stream();
-                for i in format!("HTTP/1.1 200 Ok\r\nContent-Length: {}\r\nContent-Type: {}/{}\r\n\r\n", data.len(), guess.type_(), guess.subtype()).bytes() {
+                for i in format!(
+                    "HTTP/1.1 200 Ok\r\nContent-Length: {}\r\nContent-Type: {}/{}\r\n\r\n",
+                    data.len(),
+                    guess.type_(),
+                    guess.subtype()
+                )
+                    .bytes()
+                {
                     buf.push(i);
                 }
                 for i in data.iter() {
@@ -91,7 +98,8 @@ fn main() {
                             .iter()
                             .position(|c| *c == url.chars().nth(index).unwrap())
                             .unwrap() as u64
-                            * (62_u64.pow(index as u32 - 1 - (x * real_first_length - x * 1) as u32));
+                            * (62_u64
+                            .pow(index as u32 - 1 - (x * real_first_length - x * 1) as u32));
                         index += 1;
                     }
                     returns[x as usize] = num;
