@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.y-center {
+    transform: translateY(-50%);
+}
+
+.center {
+    position: absolute;
+    top: calc( 50% - 70px );
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

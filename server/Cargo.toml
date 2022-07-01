@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 base64 = "0.13.0"
 flate2 = "1.0.24"
+rust-embed = "6.4.0"
 ureq = "2.4.0"
 url = "2.2.2"
 urlencoding = "2.1.0"

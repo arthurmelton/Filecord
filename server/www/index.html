@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sharex</title>
+    <meta property="og:type" content="website" />
+    <meta name="description" content="Sharex is a program to share large files for free using discord" />
+    <script src="js/pako.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/compacted.css">
+</head>
+<body>
+<div class="w-screen h-screen bg-gradient-to-br from-[#283548] to-slate-800">
+    <input id="fileInput" type="file" name="file" accept="*/*" class="inputfile"/>
+    <div class="w-[80%] bg-slate-800 text-slate-500 h-[80%] rounded-lg overflow-hide top-[10%] left-[10%] absolute shadow-lg shadow-slate-800 divide-y divide-slate-500">
+        <label for="fileInput">
+            <div class="text-blue-500 w-[100%] h-[calc(100%-64px)] cursor-pointer" id="drag">
+                <img src="img/upload.svg" class="w-[25%] h-[25%] center">
+            </div>
+        </label>
+        <div class="h-[32px] flex">
+            <span class="ml-1 mr-2 mt-1 float-left">Discord Webhook url: </span>
+            <input id="urlInput" type="input" name="url" class="inputurl rounded-sm flex-grow h-[24px] mt-1" placeholder="https://discord.com/api/webhooks/..." />
+        </div>
+        <div class="w-[100%] flex flex-row">
+            <div id="myProgress" class="display-none bg-slate-700 w-[100%] overflow-hidden rounded-lg inline-block mr-1 mt-1 h-[24px]">
+                <div id="myBar" class="h-[24px] bg-green-900 rounded-lg inline-block"></div>
+            </div>
+            <button class="ml-1 mt-1 inline-block bg-green-900 rounded-md basis-1/4" onclick="upload()">Upload</button>
+        </div>
+    </div>
+</div>
+<div class="relative z-10 opacity-0 pointer-events-none" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="popup">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+    <div class="fixed z-10 inset-0 overflow-y-auto">
+        <div class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+            <div class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full" id="panel">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title"></h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500" id="modal-description"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onclick="remove_message()">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
