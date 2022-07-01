@@ -1,3 +1,12 @@
+function init() {
+    document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+}
+
+function handleFileSelect() {
+    document.getElementById('image').classList.remove("top-[12px]");
+    document.getElementById("uploaded").innerHTML = `Selected: ${document.getElementById('fileInput').files[0].name}`
+}
+
 async function upload() {
     if (document.getElementById('fileInput').files.length === 0) {
         send_message("Upload failed", "Please click the upload button and add a file first");
