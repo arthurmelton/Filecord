@@ -23,12 +23,14 @@ async function upload() {
     }
     let i;
     let bar = document.getElementById("myBar");
+    let percent_item = document.getElementById("percent");
     let file = document.getElementById('fileInput').files[0];
     let url = document.getElementById('urlInput').value;
     let offset = 0;
     let request = await fetch(url);
     let channel = (await request.json())["channel_id"];
     bar.style.width = `${4000000 / file.size * 100}%`;
+    percent_item.innerText = `${Math.floor(4000000 / file.size * 100)}%`;
     if (!channel) {
         send_message("Upload failed", "Could not find this webhook url, check again to make sure its right");
         return;
@@ -62,7 +64,14 @@ async function upload() {
             offset += 8388608 - sends.length - 34;
             returns.push(JSON.parse(await response.text())["attachments"][0]["id"]);
             index++;
-            bar.style.width = `${offset / file.size * 100}%`;
+            let percent;
+            if (offset / file.size > 1) {
+                percent = 100;
+            } else {
+                percent = offset / file.size * 100;
+            }
+            bar.style.width = `${percent}%`;
+            percent_item.innerText = `${Math.floor(percent)}%`;
         } else {
             await new Promise(async r => setTimeout(r, JSON.parse(await response.text())["retry_after"] ?? 5000));
         }

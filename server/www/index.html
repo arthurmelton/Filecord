@@ -72,9 +72,10 @@
                    type="input"/>
         </div>
         <div class="w-[100%] flex flex-row">
-            <div class="display-none bg-slate-700 w-[100%] overflow-hidden rounded-lg inline-block mr-1 mt-1 h-[24px]"
+            <div class="display-none bg-slate-700 w-[100%] overflow-hidden rounded-lg inline-block mr-1 mt-1 h-[24px] relative"
                  id="myProgress">
-                <div class="h-[24px] bg-green-900 rounded-lg inline-block" id="myBar"></div>
+                <div class="h-[24px] bg-green-900 inline-block transform duration-1000" id="myBar" style="width:0"></div>
+                <span class="right-1 absolute top-[50%]y-center" id="percent">0%</span>
             </div>
             <button class="ml-1 mt-1 inline-block bg-green-900 rounded-md basis-1/4 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-slate-800 border border-green-700 shadow-sm"
                     onclick="upload()">Upload
