@@ -1,11 +1,42 @@
 function init() {
     document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+    document.getElementById('drag').addEventListener('dragover', dragover);
+    document.getElementById('drag').addEventListener('dragleave', dragleave);
+    document.getElementById('drag').addEventListener('drop', drop);
     fetch("https://discord.com/api/v10/invites/discord-developers").catch(_ => send_message('Error', 'I am sorry but your browser cant make requests to discord. Brave, Chrome, and Edge (chromium based browsers) should work but others may work too'));
 }
 
 function handleFileSelect() {
     document.getElementById('image').classList.remove("top-[12px]");
-    document.getElementById("uploaded").innerHTML = `Selected: ${document.getElementById('fileInput').files[0].name}`
+    document.getElementById("uploaded").innerHTML = `Selected: ${document.getElementById('fileInput').files[0].name}`;
+}
+
+function dragover(event) {
+    event.preventDefault()
+    event.dataTransfer.dropEffect = "move";
+    document.getElementById('drag').classList.add("border-slate-700");
+}
+
+function dragleave(event) {
+    let edit = true;
+    let element = event.fromElement;
+    while (element.parentElement) {
+        if (element.id === "drag") {
+            edit = false;
+            break;
+        }
+        element = element.parentElement;
+    }
+    if (edit) {
+        document.getElementById('drag').classList.remove("border-slate-700");
+    }
+}
+
+function drop(event) {
+    event.preventDefault();
+    document.getElementById('drag').classList.remove("border-slate-700");
+    document.getElementById('fileInput').files = event.dataTransfer.files;
+    handleFileSelect();
 }
 
 async function upload() {
