@@ -1,6 +1,6 @@
 function init() {
     document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
-    fetch("https://discord.com/api/v10/invites/discord-developers").catch(_ => send_message('Error', 'I am sorry but you browser cant make requests to discord. Brave, Chrome, and Edge should work but others may work too'));
+    fetch("https://discord.com/api/v10/invites/discord-developers").catch(_ => send_message('Error', 'I am sorry but your browser cant make requests to discord. Brave, Chrome, and Edge (chromium based browsers) should work but others may work too'));
 }
 
 function handleFileSelect() {
