@@ -1,5 +1,5 @@
 [package]
-name = "sharex"
+name = "server"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,10 +7,9 @@ edition = "2021"
 
 [dependencies]
 base64 = "0.13.0"
-clap = "3.2.6"
 flate2 = "1.0.24"
-pbr = "1.0.4"
-rand = "0.8.5"
-serde_json = "1.0.82"
+mime_guess = "2.0.4"
+rust-embed = "6.4.0"
 ureq = "2.4.0"
+url = "2.2.2"
 urlencoding = "2.1.0"
