@@ -126,15 +126,14 @@ fn main() {
                 let length = decompressed[0];
                 decompressed.remove(0);
                 if messaging_platform {
-                    stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Length: 240\r\nContent-Type: text/html; charset=UTF-8\r\n\r
-    <!DOCTYPE html>
+                    let send = format!("<!DOCTYPE html>
     <head>
         <title>Sharex - {}</title>
         <meta property=\"og:type\" content=\"website\" />
         <meta name=\"description\" content=\"Sharex is a program to share large files for free using discord\" />
     </head>
-    <body>
-    </body>", file_name).as_bytes()).unwrap();
+    <body>", file_name);
+                    stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Length: {}\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n{}", send.len(), send).as_bytes()).unwrap();
                 } else {
                     stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Disposition: attachment; filename=\"{}\"\r\nContent-Length: {}\r\n\r\n", file_name, length).as_bytes()).unwrap();
                     let mut index = 0;
