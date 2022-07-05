@@ -15,7 +15,7 @@ fn main() {
         "0.0.0.0:{}",
         env::var("PORT").unwrap_or("80".to_string())
     ))
-        .unwrap();
+    .unwrap();
     for stream in listener.incoming() {
         thread::spawn(move || {
             let mut stream = stream.unwrap();
@@ -51,7 +51,7 @@ fn main() {
                     guess.type_(),
                     guess.subtype()
                 )
-                    .bytes()
+                .bytes()
                 {
                     buf.push(i);
                 }
@@ -99,7 +99,7 @@ fn main() {
                             .position(|c| *c == url.chars().nth(index).unwrap())
                             .unwrap() as u64
                             * (62_u64
-                            .pow(index as u32 - 1 - (x * real_first_length - x * 1) as u32));
+                                .pow(index as u32 - 1 - (x * real_first_length - x * 1) as u32));
                         index += 1;
                     }
                     returns[x as usize] = num;
@@ -110,11 +110,11 @@ fn main() {
                     "https://cdn.discordapp.com/attachments/{}/{}/data",
                     returns[0], returns[1]
                 ))
-                    .call()
-                    .unwrap()
-                    .into_reader()
-                    .read_to_end(&mut buffer)
-                    .unwrap();
+                .call()
+                .unwrap()
+                .into_reader()
+                .read_to_end(&mut buffer)
+                .unwrap();
                 let mut writer = Vec::new();
                 let mut z = ZlibDecoder::new(writer);
                 z.write_all(&buffer).unwrap();
@@ -143,11 +143,11 @@ fn main() {
                             "https://cdn.discordapp.com/attachments/{}/{}/part_{}",
                             returns[0], id, index
                         ))
-                            .call()
-                            .unwrap()
-                            .into_reader()
-                            .read_to_end(&mut buffer)
-                            .unwrap();
+                        .call()
+                        .unwrap()
+                        .into_reader()
+                        .read_to_end(&mut buffer)
+                        .unwrap();
                         stream.write(&buffer).unwrap();
                         index += 1;
                     }
