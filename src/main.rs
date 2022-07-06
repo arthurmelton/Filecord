@@ -78,32 +78,16 @@ fn main() {
                         }
                     }
                 }
-                let char_list: Vec<char> =
-                    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-                        .chars()
-                        .collect();
-                let first_length = char_list
-                    .iter()
-                    .position(|c| *c == url.chars().nth(0).unwrap())
-                    .unwrap();
-                let mut index = 1;
+                let char_list: Vec<char> = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".chars().collect();
+                let mut index = 0;
                 let mut returns = [0 as u64; 2];
-                let mut real_first_length = 0;
                 for x in 0..2 {
-                    let mut num: u64 = 0;
-                    while (x == 0 && num.to_string().len() < first_length)
-                        || (x == 1 && url.len() > index)
-                    {
-                        num += char_list
-                            .iter()
-                            .position(|c| *c == url.chars().nth(index).unwrap())
-                            .unwrap() as u64
-                            * (62_u64
-                                .pow(index as u32 - 1 - (x * real_first_length - x * 1) as u32));
-                        index += 1;
+                    let mut num:u64 = 0;
+                    for y in 0..11 {
+                        num+=char_list.iter().position(|c| *c == url.chars().nth(index).unwrap()).unwrap() as u64*(62_u64.pow(y));
+                        index+=1;
                     }
                     returns[x as usize] = num;
-                    real_first_length = index;
                 }
                 let mut buffer = Vec::new();
                 ureq::get(&format!(

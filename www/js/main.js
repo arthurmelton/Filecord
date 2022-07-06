@@ -123,7 +123,6 @@ async function upload() {
     let convert = [channel, JSON.parse(await response.text())["attachments"][0]["id"]];
     let base = `${window.location.origin}/`;
     let char_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    base += char_list[convert[0].length];
     for (i = 0; i < 2; i++) {
         for (let x = 0; x < 11; x++) {
             base += char_list[BigInt(convert[i]) / 62n ** BigInt(x) % 62n];
