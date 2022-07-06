@@ -68,7 +68,7 @@ async function upload() {
     }
     let returns = [file.name, file.size];
     let index = 0;
-    let start = [0,0,0,0,0];
+    let start = [0, 0, 0, 0, 0];
     while (file.size > offset) {
         let boundary = "--------";
         let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -84,8 +84,8 @@ async function upload() {
                 "content-type": `multipart/form-data; boundary=${boundary}`
             }
         });
-        for(i=0;i<4;i++) {
-            start[i] = start[i+1];
+        for (i = 0; i < 4; i++) {
+            start[i] = start[i + 1];
         }
         start[4] = new Date().getTime();
         if (start[4] - start[0] < 5000) {
