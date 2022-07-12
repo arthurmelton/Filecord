@@ -61,7 +61,7 @@ fn main() {
                 }
                 stream.write(&buf).unwrap();
             } else {
-                let messaging_platforms_useragent = ["bot", "whatsapp", "snapchat", "messenger"];
+                let messaging_platforms_useragent = ["bot", "whatsapp", "snapchat", "messenger", "teams"];
                 let mut messaging_platform = false;
                 for i in response
                     .split("\r\n\r\n")
