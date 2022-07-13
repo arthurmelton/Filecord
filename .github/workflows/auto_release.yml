@@ -16,6 +16,12 @@ jobs:
           
       - name: Build Linux
         run: cargo build --all --release
+        
+      - name: Testing
+        run: ls target
+        
+      - name: Testing
+        run: ls target/release
       
       - uses: actions/checkout@v2
       - name: Make version
