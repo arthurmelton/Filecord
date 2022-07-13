@@ -22,6 +22,10 @@ jobs:
           
       - name: testing
         run: ls
+      - name: testing
+        run: ls ..
+      - name: testing
+        run: ls *
           
       - name: Build Linux
         run: cargo build --all --release && strip target/release/server && mv target/release/server target/release/server_amd64
