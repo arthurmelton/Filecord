@@ -16,14 +16,7 @@ jobs:
           
       - name: Build Linux
         run: cargo build --all --release
-        
-      - name: Testing
-        run: ls target
-        
-      - name: Testing
-        run: ls target/release
       
-      - uses: actions/checkout@v2
       - name: Make version
         run: gh release create "v$(cat Cargo.toml | grep "version = \"" | grep -Eo "[^\"]*" | head -n2 | tail -n 1)" --generate-notes target/release/server || true
         shell: bash
