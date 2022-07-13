@@ -1,7 +1,0 @@
-            machine api.heroku.com
-              login 
-              password 
-            machine git.heroku.com
-              login 
-              password 
-          EOF && echo hi
