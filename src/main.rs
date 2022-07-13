@@ -124,6 +124,7 @@ fn main() {
         <title>Sharex - {}</title>
         <meta property=\"og:type\" content=\"website\" />
         <meta name=\"description\" content=\"Sharex is a program to share large files for free using discord\" />
+        <meta content=\"#1E293B\" name=\"theme-color\" />
     </head>
     <body>", file_name);
                     stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Length: {}\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n{}", send.len(), send).as_bytes()).unwrap();
