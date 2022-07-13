@@ -29,3 +29,7 @@
 #drag {
     transition: border-color 0.2s ease;
 }
+
+.btn {
+    @apply border-slate-500 border-2 rounded-lg text-[#9CA3AF] p-1 hover:bg-[#283548]
+}

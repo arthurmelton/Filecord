@@ -11,7 +11,6 @@ function init() {
 }
 
 function handleFileSelect() {
-    document.getElementById('image').classList.remove("top-[12px]");
     document.getElementById("uploaded").innerHTML = `Selected: ${document.getElementById('fileInput').files[0].name}`;
 }
 

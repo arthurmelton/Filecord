@@ -24,7 +24,7 @@
                  id="drag">
                 <div class="w-[75%] h-[calc(33%-24px)] center">
                     <!-- SVG from https://www.svgrepo.com/ -->
-                    <svg class="relative w-[100%] h-[calc(100%-24px)] top-[12px] fill-slate-700" id="image"
+                    <svg class="relative w-[100%] h-[calc(100%-24px)] fill-slate-700" id="image"
                          style="enable-background:new 0 0 486.3 486.3;" version="1.1" viewBox="0 0 486.3 486.3"
                          x="0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
                          y="0px">
@@ -44,7 +44,8 @@
                             </g>
                         </g>
                     </svg>
-                    <p class="text-center truncate" id="uploaded"></p>
+                    <p class="text-center truncate mb-1" id="uploaded"></p>
+                    <button class="z-10 btn text-sm relative left-[50%] x-center" onclick="send_message('How it works', 'What will happen is sharex will send your file in chunks so discord can use it, but doing this will flood a channel with a lot of messages. At the end it will give you a clean link that you can share anywhere!')">How it works</button>
                 </div>
             </div>
         </label>
@@ -93,11 +94,11 @@
         </div>
     </div>
     <div class="absolute bg-slate-800 bottom-0 x-center left-[50%] rounded-lg p-1 mb-3">
-        <button class="border-slate-500 border-2 rounded-lg text-[#9CA3AF] p-1 hover:bg-[#283548] mr-3 text-xl"
+        <button class="btn mr-3 text-xl"
                 onclick="send_message('Support', 'Paypal: <a class=\'text-blue-500\' href=\'https://paypal.me/AMTitan\'>https://paypal.me/AMTitan</a><br>XMR: <p style=\'overflow-wrap:anywhere\'>44grzUFdoWaHQAAquuyqR5J8TBqkZ2pNserAcR2hxA5NQYu9E2Tmt9wdbKBQso3C8RPGJUaEKeBbWCEGThQNQ4j6Aw2FXKJ</p>')">
             Support
         </button>
-        <button class="border-slate-500 border-2 rounded-lg text-[#9CA3AF] p-1 hover:bg-[#283548] text-xl"
+        <button class="btn text-xl"
                 onclick="window.open('https://github.com/AMTitan/Sharex', '_blank')">
             <img class="float-left w-[24px] mr-1" src="image/GitHub-Mark-32px.png">
             Github
