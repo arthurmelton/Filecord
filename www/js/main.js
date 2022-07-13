@@ -3,6 +3,10 @@ function init() {
     document.getElementById('drag').addEventListener('dragover', dragover);
     document.getElementById('drag').addEventListener('dragleave', dragleave);
     document.getElementById('drag').addEventListener('drop', drop);
+    const webhook = localStorage.getItem('webhook');
+    if (webhook) {
+        document.getElementById('urlInput').value = webhook;
+    }
     fetch("https://discord.com/api/v10/invites/discord-developers").catch(_ => send_message('Error', 'I am sorry but your browser cant make requests to discord. Brave, Chrome, and Edge (chromium based browsers) should work but others may work too'));
 }
 
@@ -67,6 +71,7 @@ async function upload() {
         send_message("Upload failed", "Could not find this webhook url, check again to make sure its right");
         return;
     }
+    localStorage.setItem("webhook", document.getElementById('urlInput').value);
     let returns = [file.name, file.size];
     let index = 0;
     let start = [0, 0, 0, 0, 0];
