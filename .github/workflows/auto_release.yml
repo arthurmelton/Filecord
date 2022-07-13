@@ -12,20 +12,14 @@ jobs:
         with:
           toolchain: stable
           default: true
-          override: true
-        
-      - name: install windows
-        run: /home/runner/.cargo/bin/rustup target add --toolchain stable x86_64-pc-windows-gnu
+          override: true   
           
       - name: Build Linux
-        run: cargo build --all --release && strip target/release/server && mv target/release/server target/release/server_amd64
-      
-      - name: Build Windows
-        run: cargo build --all --release --target x86_64-pc-windows-gnu
+        run: cargo build --all --release && strip target/release/server
       
       - uses: actions/checkout@v2
       - name: Make version
-        run: gh release create "v$(cat Cargo.toml | grep "version = \"" | grep -Eo "[^\"]*" | head -n2 | tail -n 1)" --generate-notes ./target/release/server_amd64 ./target/x86_64-pc-windows-gnu/release/server.exe || true
+        run: gh release create "v$(cat Cargo.toml | grep "version = \"" | grep -Eo "[^\"]*" | head -n2 | tail -n 1)" --generate-notes ./target/release/server || true
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
