@@ -18,7 +18,7 @@ jobs:
         run: cargo build --all --release
       
       - name: Make version
-        run: gh release create "v$(cat Cargo.toml | grep "version = \"" | grep -Eo "[^\"]*" | head -n2 | tail -n 1)" --generate-notes target/release/server && printf "machine api.heroku.com\n  login $HEROKU_EMAIL\n  password $HEROKU_API_KEY\nmachine git.heroku.com\n  login $HEROKU_EMAIL\n  password $HEROKU_API_KEY\n" > ~/.netrc && mkdir target/heroku && cd target/heroku && heroku git:remote --app amtitan-sharex && git reset hard --HEAD && git pull --force && cp ../release/server ./ && git add . && git commit -am "." && git push || true
+        run: gh release create "v$(cat Cargo.toml | grep "version = \"" | grep -Eo "[^\"]*" | head -n2 | tail -n 1)" --generate-notes target/release/server && printf "machine api.heroku.com\n  login $HEROKU_EMAIL\n  password $HEROKU_API_KEY\nmachine git.heroku.com\n  login $HEROKU_EMAIL\n  password $HEROKU_API_KEY\n" > ~/.netrc && mkdir target/heroku && cd target/heroku && heroku git:remote --app amtitan-sharex && git reset --hard HEAD && git pull --force && cp ../release/server ./ && git add . && git commit -am "." && git push || true
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
