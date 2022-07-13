@@ -12,7 +12,7 @@
 <body onload="init()">
 <div class="w-screen h-screen bg-gradient-to-br from-[#283548] to-slate-800">
     <input accept="*/*" class="inputfile" id="fileInput" name="file" type="file"/>
-    <div class="w-[80%] bg-slate-800 text-slate-500 h-[80%] rounded-lg overflow-hide top-[10%] left-[10%] absolute shadow-lg shadow-slate-800 divide-y divide-slate-500">
+    <div class="w-[80%] bg-slate-800 text-[#9CA3AF] h-[80%] rounded-lg overflow-hide top-[10%] left-[10%] absolute shadow-lg shadow-slate-800 divide-y divide-slate-500 max-h-[calc(90%-64px)]">
         <label for="fileInput">
             <div class="text-blue-500 w-[100%] h-[calc(100%-64px)] cursor-pointer rounded-t-lg border-2 border-slate-800"
                  id="drag">
@@ -71,20 +71,29 @@
                 </g>
             </div>
             <input class="inputurl rounded-sm flex-grow h-[24px] mt-1 bg-slate-700" id="urlInput" name="url"
-                   placeholder="https://discord.com/api/webhooks/..."
+                   placeholder="&nbsp;https://discord.com/api/webhooks/..."
                    type="input"/>
         </div>
         <div class="w-[100%] flex flex-row">
             <div class="display-none bg-slate-700 w-[100%] overflow-hidden rounded-lg inline-block mr-1 mt-1 h-[24px] relative"
                  id="myProgress">
-                <div class="h-[24px] bg-green-900 inline-block transform duration-1000" id="myBar"
+                <div class="h-[24px] bg-blue-900 inline-block transform duration-1000" id="myBar"
                      style="width:0"></div>
                 <span class="right-1 absolute top-[50%]y-center" id="percent">0%</span>
             </div>
-            <button class="ml-1 mt-1 inline-block bg-green-900 rounded-md basis-1/4 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-slate-800 border border-green-700 shadow-sm"
+            <button class="ml-1 mt-1 inline-block bg-blue-900 rounded-md basis-1/4 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-slate-800 border border-blue-700 shadow-sm"
                     onclick="upload()">Upload
             </button>
         </div>
+    </div>
+    <div class="absolute bg-slate-800 bottom-0 x-center left-[50%] rounded-lg p-1 mb-3">
+        <button class="border-slate-500 border-2 rounded-lg text-[#9CA3AF] p-1 hover:bg-[#283548] mr-3 text-xl" onclick="send_message('Support', 'Paypal: <a class=\'text-blue-500\' href=\'https://paypal.me/AMTitan\'>https://paypal.me/AMTitan</a><br>XMR: <p style=\'overflow-wrap:anywhere\'>44grzUFdoWaHQAAquuyqR5J8TBqkZ2pNserAcR2hxA5NQYu9E2Tmt9wdbKBQso3C8RPGJUaEKeBbWCEGThQNQ4j6Aw2FXKJ</p>')">
+            Support
+        </button>
+        <button class="border-slate-500 border-2 rounded-lg text-[#9CA3AF] p-1 hover:bg-[#283548] text-xl" onclick="window.open('https://github.com/AMTitan/Sharex', '_blank')">
+            <img src="image/GitHub-Mark-32px.png" class="float-left w-[24px] mr-1">
+            Github
+        </button>
     </div>
 </div>
 <div aria-labelledby="modal-title" aria-modal="true" class="relative z-10 opacity-0 pointer-events-none" id="popup"

@@ -52,6 +52,7 @@ async function upload() {
         send_message("Upload failed", "This is not a correct webhook url it should look something like https://discord.com/api/webhooks/...");
         return;
     }
+    send_message("Upload Started", "The upload has started so please wait for it to finish then we will give you a link!");
     let i;
     let bar = document.getElementById("myBar");
     let percent_item = document.getElementById("percent");

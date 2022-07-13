@@ -15,6 +15,10 @@
     transform: translateY(-50%);
 }
 
+.x-center {
+    transform: translateX(-50%);
+}
+
 .center {
     position: absolute;
     top: calc(50% - 32px);
