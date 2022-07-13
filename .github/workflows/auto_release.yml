@@ -4,7 +4,7 @@ jobs:
   add-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Install latest rust toolchain
+      - name: Install latest rust toolchain for linux and mac
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -12,13 +12,16 @@ jobs:
           override: true
           target: x86_64-apple-darwin
 
-      - name: Install latest rust toolchain
+      - name: Install latest rust toolchain for windows
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           default: true
           override: true
           target: x86_64-pc-windows-gnu
+          
+      - name: testing
+        run: ls
           
       - name: Build Linux
         run: cargo build --all --release && strip target/release/server && mv target/release/server target/release/server_amd64
