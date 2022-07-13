@@ -10,7 +10,15 @@ jobs:
           toolchain: stable
           default: true
           override: true
-          target: x86_64-apple-darwin x86_64-pc-windows-gnu
+          target: x86_64-apple-darwin
+
+      - name: Install latest rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          default: true
+          override: true
+          target: x86_64-pc-windows-gnu
           
       - name: Build Linux
         run: cargo build --all --release && strip target/release/server && mv target/release/server target/release/server_amd64
