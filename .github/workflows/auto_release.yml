@@ -4,7 +4,13 @@ jobs:
   add-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Install latest rust toolchain for linux and mac
+      - name: Install latest rust toolchain for linux
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          default: true
+          override: true
+      - name: Install latest rust toolchain for mac
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
