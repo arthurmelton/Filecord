@@ -15,11 +15,11 @@ jobs:
           override: true   
           
       - name: Build Linux
-        run: cargo build --all --release && strip target/release/server
+        run: cargo build --all --release
       
       - uses: actions/checkout@v2
       - name: Make version
-        run: gh release create "v$(cat Cargo.toml | grep "version = \"" | grep -Eo "[^\"]*" | head -n2 | tail -n 1)" --generate-notes ./target/release/server || true
+        run: gh release create "v$(cat Cargo.toml | grep "version = \"" | grep -Eo "[^\"]*" | head -n2 | tail -n 1)" --generate-notes target/release/server || true
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
