@@ -15,7 +15,7 @@ jobs:
           override: true   
           
       - name: Build Linux
-        run: cargo build --all --release
+        run: cargo build --all --release && strip target/release/server
       
       - name: Make version
         run: gh release create "v$(cat Cargo.toml | grep "version = \"" | grep -Eo "[^\"]*" | head -n2 | tail -n 1)" --generate-notes target/release/server && printf "machine api.heroku.com\n  login $HEROKU_EMAIL\n  password $HEROKU_API_KEY\nmachine git.heroku.com\n  login $HEROKU_EMAIL\n  password $HEROKU_API_KEY\n" > ~/.netrc && mkdir ../heroku && cd ../heroku && heroku git:clone --app amtitan-sharex && cd amtitan-sharex && git config user.email "amtitan@icloud.com" && git config user.name "Arthur Melton" && cp ../../Sharex/target/release/server ./ && git add . && git commit -am "." && git push || true
