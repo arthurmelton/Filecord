@@ -73,44 +73,75 @@ async function upload() {
     localStorage.setItem("webhook", document.getElementById('urlInput').value);
     let returns = [file.name, file.size];
     let index = 0;
+    let running_count = 0;
+    let actually_done = 0;
     let start = [0, 0, 0, 0, 0];
     while (file.size > offset) {
-        let boundary = "--------";
-        let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (i = 0; i < 20; i++) {
-            boundary += chars[Math.floor(Math.random() * chars.length)];
-        }
-        let sends = `--${boundary}\r\nContent-Disposition: form-data; name=\"file1\"; filename=\"${"part_" + index}\"\r\nContent-Type: application/octet-stream\r\n\r\n`;
-        let send = new Blob([sends, file.slice(offset, offset + 8388608 - sends.length - 34), `\r\n--${boundary}--`]);
-        let response = await fetch(url, {
-            method: "POST",
-            body: send,
-            headers: {
-                "content-type": `multipart/form-data; boundary=${boundary}`
-            }
-        });
-        for (i = 0; i < 4; i++) {
-            start[i] = start[i + 1];
-        }
-        start[4] = new Date().getTime();
-        if (start[4] - start[0] < 5000) {
-            await new Promise(r => setTimeout(r, 5000 - (start[4] - start[0])));
-        }
-        if (response.ok) {
-            offset += 8388608 - sends.length - 34;
-            returns.push(JSON.parse(await response.text())["attachments"][0]["id"]);
+        while (running_count < 5 && new Date().getTime() - start[0] >= 5000 && file.size > offset) {
+            running_count++;
+            //console.log(running_count);
+            let go_again = true;
+            let index_save = index;
+            let offset_save = offset;
             index++;
-            let percent;
-            if (offset / file.size > 1) {
-                percent = 100;
-            } else {
-                percent = offset / file.size * 100;
-            }
-            bar.style.width = `${percent}%`;
-            percent_item.innerText = `${Math.floor(percent)}%`;
-        } else {
-            await new Promise(async r => setTimeout(r, JSON.parse(await response.text())["retry_after"] ?? 5000));
+            offset += 8388608 - (172 + index_save.toString().length);
+            new Promise(async function(resolve) {
+                while (go_again) {
+                    let done = false;
+                    go_again = false;
+                    let boundary = "--------";
+                    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                    for (i = 0; i < 20; i++) {
+                        boundary += chars[Math.floor(Math.random() * chars.length)];
+                    }
+                    let sends = `--${boundary}\r\nContent-Disposition: form-data; name=\"file1\"; filename=\"${"part_" + index_save}\"\r\nContent-Type: application/octet-stream\r\n\r\n`;
+                    let send = new Blob([sends, file.slice(offset_save, offset_save + 8388608 - sends.length - 34), `\r\n--${boundary}--`]);
+                    fetch(url, {
+                        method: "POST",
+                        body: send,
+                        headers: {
+                            "content-type": `multipart/form-data; boundary=${boundary}`
+                        }
+                    }).then(async function(response) {
+                        let json = JSON.parse(await response.text());
+                        if (json["retry_after"]) {
+                            go_again = true;
+                            await new Promise(async r => setTimeout(r, json["retry_after"]));
+                        }
+                        else {
+                            actually_done += 8388608 - (137 + index_save.toString().length);
+                            returns[index_save + 2] = json["attachments"][0]["id"];
+                            let percent;
+                            if (actually_done / file.size > 1) {
+                                percent = 100;
+                            } else {
+                                percent = actually_done / file.size * 100;
+                            }
+                            bar.style.width = `${percent}%`;
+                            percent_item.innerText = `${Math.floor(percent)}%`;
+                        }
+                        done = true;
+                    }).catch(async function(response) {
+                        go_again = true;
+                        await new Promise(async r => setTimeout(r, 5000));
+                        done = true;
+                    });
+                    while (!done) {
+                        await new Promise(r => setTimeout(r, 100));
+                    }
+                    for (i = 0; i < 4; i++) {
+                        start[i] = start[i + 1];
+                    }
+                    start[4] = new Date().getTime();
+                }
+                resolve(1);
+            }).then(() => running_count--);
         }
+        
+        await new Promise(r => setTimeout(r, 100));
+    }
+    while (running_count !== 0) {
+        await new Promise(r => setTimeout(r, 100));
     }
     let boundary = "--------";
     let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -135,6 +166,7 @@ async function upload() {
     }
     send_message("Upload Successful", `Yay! To download the file go to <a class="text-blue-500" href="${base}">${base}</a>`);
     console.log(base);
+    console.log(returns);
 }
 
 function send_message(title, description) {
