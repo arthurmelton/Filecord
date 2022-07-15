@@ -129,7 +129,7 @@ fn main() {
         <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/image/favicon/favicon-32x32.png\">
         <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"/image/favicon/favicon-16x16.png\">
         <link rel=\"manifest\" href=\"/image/favicon/site.webmanifest\">
-        <meta property=\"og:image\" content=\"/image/favicon/favicon.png\" />
+        <meta property=\"og:image\" content=\"/image/favicon/sharex.png\" />
     </head>
     <body>", file_name);
                     stream.write(format!("HTTP/1.1 200 Ok\r\nContent-Length: {}\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n{}", send.len(), send).as_bytes()).unwrap();
