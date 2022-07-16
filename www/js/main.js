@@ -127,7 +127,7 @@ async function upload() {
                     while (!done) {
                         await new Promise(r => setTimeout(r, 100));
                     }
-                    await new Promise(async r => setTimeout(r, 5000));
+                    await new Promise(async r => setTimeout(r, 10000));
                 }
                 resolve(1);
             }).then(() => running_count--);
