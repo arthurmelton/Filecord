@@ -75,9 +75,8 @@ async function upload() {
     let index = 0;
     let running_count = 0;
     let actually_done = 0;
-    let start = [0, 0, 0, 0, 0];
     while (file.size > offset) {
-        while (running_count < 5 && new Date().getTime() - start[0] >= 5000 && file.size > offset) {
+        while (running_count < 5 && file.size > offset) {
             running_count++;
             //console.log(running_count);
             let go_again = true;
@@ -123,16 +122,12 @@ async function upload() {
                         done = true;
                     }).catch(async function(response) {
                         go_again = true;
-                        await new Promise(async r => setTimeout(r, 5000));
                         done = true;
                     });
                     while (!done) {
                         await new Promise(r => setTimeout(r, 100));
                     }
-                    for (i = 0; i < 4; i++) {
-                        start[i] = start[i + 1];
-                    }
-                    start[4] = new Date().getTime();
+                    await new Promise(async r => setTimeout(r, 5000));
                 }
                 resolve(1);
             }).then(() => running_count--);
