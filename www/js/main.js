@@ -84,7 +84,7 @@ async function upload() {
             let offset_save = offset;
             index++;
             offset += 8388608 - (172 + index_save.toString().length);
-            new Promise(async function(resolve) {
+            new Promise(async function (resolve) {
                 while (go_again) {
                     let done = false;
                     go_again = false;
@@ -101,13 +101,12 @@ async function upload() {
                         headers: {
                             "content-type": `multipart/form-data; boundary=${boundary}`
                         }
-                    }).then(async function(response) {
+                    }).then(async function (response) {
                         let json = JSON.parse(await response.text());
                         if (json["retry_after"]) {
                             go_again = true;
                             await new Promise(async r => setTimeout(r, json["retry_after"]));
-                        }
-                        else {
+                        } else {
                             actually_done += 8388608 - (137 + index_save.toString().length);
                             returns[index_save + 2] = json["attachments"][0]["id"];
                             let percent;
@@ -120,7 +119,7 @@ async function upload() {
                             percent_item.innerText = `${Math.floor(percent)}%`;
                         }
                         done = true;
-                    }).catch(async function(response) {
+                    }).catch(async function (response) {
                         go_again = true;
                         done = true;
                     });
@@ -134,7 +133,7 @@ async function upload() {
                 resolve(1);
             }).then(() => running_count--);
         }
-        
+
         await new Promise(r => setTimeout(r, 100));
     }
     while (running_count !== 0) {
