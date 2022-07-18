@@ -36,7 +36,7 @@ Allow: /$
 Allow: /index.html
 Allow: /robots.txt
 Allow: /favicon.ico
-Allow: /css/*
-Allow: /image/*
-Allow: /js/*
+Allow: /css/
+Allow: /image/
+Allow: /js/
 Disallow: /
