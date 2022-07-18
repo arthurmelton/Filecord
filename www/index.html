@@ -6,6 +6,7 @@
     <meta content="website" property="og:type"/>
     <meta content="Sharex is a program to share large files for free using discord" name="description"/>
     <meta content="#1E293B" name="theme-color"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/image/favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
     <link href="/image/favicon/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
     <link href="/image/favicon/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
@@ -16,13 +17,13 @@
     <link href="css/compacted.css" rel="stylesheet">
 </head>
 <body onload="init()">
-<div class="w-screen h-screen bg-gradient-to-br from-[#283548] to-slate-800">
+<div class="w-screen h-screen bg-slate-800 sm:bg-gradient-to-br sm:from-[#283548] sm:to-slate-800">
     <input accept="*/*" class="inputfile" id="fileInput" name="file" type="file"/>
-    <div class="w-[80%] bg-slate-800 text-[#9CA3AF] h-[80%] rounded-lg overflow-hide top-[10%] left-[10%] absolute shadow-lg shadow-slate-800 divide-y divide-slate-500 max-h-[calc(90%-64px)]">
+    <div class="w-[90%] left-[5%] h-[100%] sm:w-[80%] bg-slate-800 text-[#9CA3AF] sm:h-[80%] sm:rounded-lg overflow-hide sm:top-[10%] sm:left-[10%] absolute shadow-lg shadow-slate-800 divide-y divide-slate-500 sm:max-h-[calc(90%-64px)]">
         <label for="fileInput">
-            <div class="text-blue-500 w-[100%] h-[calc(100%-64px)] cursor-pointer rounded-t-lg border-2 border-slate-800"
+            <div class="text-blue-500 w-[100%] h-[calc(100%-226px)] sm:h-[calc(100%-64px)] cursor-pointer rounded-t-lg border-2 border-slate-800"
                  id="drag">
-                <div class="w-[75%] h-[calc(33%-24px)] center">
+                <div class="w-[75%] h-[calc(33%-52px)] center">
                     <!-- SVG from https://www.svgrepo.com/ -->
                     <svg class="relative w-[100%] h-[calc(100%-24px)] fill-slate-700" id="image"
                          style="enable-background:new 0 0 486.3 486.3;" version="1.1" viewBox="0 0 486.3 486.3"
@@ -45,15 +46,15 @@
                         </g>
                     </svg>
                     <p class="text-center truncate mb-1" id="uploaded"></p>
-                    <button class="z-10 btn text-sm relative left-[50%] x-center"
+                    <button class="z-10 btn sm:text-sm text-lg relative left-[50%] x-center"
                             onclick="send_message('How it works', 'What will happen is sharex will send your file in chunks so discord can use it, but doing this will flood a channel with a lot of messages. At the end it will give you a clean link that you can share anywhere!')">
                         How it works
                     </button>
                 </div>
             </div>
         </label>
-        <div class="h-[32px] flex">
-            <div class="ml-1 mr-2 mt-1 float-left flex">
+        <div class="h-[64px] sm:h-[32px] sm:flex">
+            <div class="ml-1 mr-2 mt-1 float-left flex relative left-[50%] h-[24px] x-center sm:left-0 sm:translate-x-0">
                 <span class="mr-1">Discord Webhook URL</span><?xml version="1.0" encoding="iso-8859-1"?>
                 <!-- SVG from https://www.svgrepo.com/ -->
                 <svg class="h-[24px] fill-slate-700 cursor-pointer" id="Layer_1"
@@ -80,23 +81,24 @@
                     </g>
                 </g>
             </div>
-            <input class="inputurl rounded-sm flex-grow h-[24px] mt-1 bg-slate-700" id="urlInput" name="url"
+            <input class="relative inputurl rounded-sm sm:flex-grow h-[24px] mt-1 bg-slate-700 truncate w-[100%] sm:w-fit" id="urlInput" name="url"
                    placeholder="&nbsp;https://discord.com/api/webhooks/..."
                    type="input"/>
         </div>
-        <div class="w-[100%] flex flex-row">
+        <div class="w-[100%] sm:flex flex-row">
             <div class="display-none bg-slate-700 w-[100%] overflow-hidden rounded-lg inline-block mr-1 mt-1 h-[24px] relative"
                  id="myProgress">
                 <div class="h-[24px] bg-blue-900 inline-block transform duration-1000" id="myBar"
                      style="width:0"></div>
                 <span class="right-1 absolute top-[50%]y-center" id="percent">0%</span>
             </div>
-            <button class="ml-1 mt-1 inline-block bg-blue-900 rounded-md basis-1/4 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-slate-800 border border-blue-700 shadow-sm"
+            <button class="sm:text-sm text-3xl ml-1 mt-1 inline-block bg-blue-900 rounded-md basis-1/4 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-slate-800 border border-blue-700 shadow-sm relative left-[50%] x-center sm:left-0 sm:translate-x-0 p-1 sm:p-0"
                     onclick="upload()">Upload
             </button>
+            <hr class="mt-3 border-slate-500">
         </div>
     </div>
-    <div class="absolute bg-slate-800 bottom-0 x-center left-[50%] rounded-lg p-1 mb-3">
+    <div class="absolute bg-slate-800 bottom-0 x-center left-[50%] rounded-lg sm:p-1 mb-3 w-fit">
         <button class="btn mr-3 text-xl"
                 onclick="send_message('Support', 'Paypal: <a class=\'text-blue-500\' href=\'https://paypal.me/AMTitan\'>https://paypal.me/AMTitan</a><br>XMR: <p style=\'overflow-wrap:anywhere\'>44grzUFdoWaHQAAquuyqR5J8TBqkZ2pNserAcR2hxA5NQYu9E2Tmt9wdbKBQso3C8RPGJUaEKeBbWCEGThQNQ4j6Aw2FXKJ</p>')">
             Support
