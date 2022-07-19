@@ -1,5 +1,5 @@
-var messages = [];
-var files = [];
+let messages = [];
+let files = [];
 
 function init() {
     document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
