@@ -1,3 +1,5 @@
+messages = [];
+
 function init() {
     document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
     document.getElementById('drag').addEventListener('dragover', dragover);
@@ -166,12 +168,20 @@ async function upload() {
 }
 
 function send_message(title, description) {
-    document.getElementById("popup").classList.remove("ease-in", "duration-200", "opacity-0", "pointer-events-none");
-    document.getElementById("popup").classList.add("ease-out", "duration-300", "opacity-100");
-    document.getElementById("panel").classList.remove("ease-in", "duration-200", "opacity-0", "translate-y-4", "sm:translate-y-0", "sm:scale-95");
-    document.getElementById("panel").classList.add("opacity-100", "translate-y-0", "sm:scale-100", "ease-out", "duration-300");
-    document.getElementById("modal-title").innerHTML = title;
-    document.getElementById("modal-description").innerHTML = description;
+    if(document.getElementById("modal-title").innerHTML.trim() === "") {
+        document.getElementById("popup").classList.remove("ease-in", "duration-200", "opacity-0", "pointer-events-none");
+        document.getElementById("popup").classList.add("ease-out", "duration-300", "opacity-100");
+        document.getElementById("panel").classList.remove("ease-in", "duration-200", "opacity-0", "translate-y-4", "sm:translate-y-0", "sm:scale-95");
+        document.getElementById("panel").classList.add("opacity-100", "translate-y-0", "sm:scale-100", "ease-out", "duration-300");
+        document.getElementById("modal-title").innerHTML = title;
+        document.getElementById("modal-description").innerHTML = description;
+    }
+    else {
+        messages.push({
+            title: title,
+            description: description
+        });
+    }
 }
 
 function remove_message() {
@@ -179,4 +189,12 @@ function remove_message() {
     document.getElementById("popup").classList.remove("ease-out", "duration-300", "opacity-100");
     document.getElementById("panel").classList.add("ease-in", "duration-200", "opacity-0", "translate-y-4", "sm:translate-y-0", "sm:scale-95");
     document.getElementById("panel").classList.remove("opacity-100", "translate-y-0", "sm:scale-100", "ease-out", "duration-300");
+    setTimeout(function () {
+        document.getElementById("modal-title").innerHTML = "";
+        document.getElementById("modal-description").innerHTML = "";
+        if(messages.length > 0) {
+            send_message(messages[0].title, messages[0].description);
+            messages.shift();
+        }
+    }, 200);
 }
