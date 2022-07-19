@@ -1,4 +1,5 @@
-messages = [];
+var messages = [];
+var files = [];
 
 function init() {
     document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
@@ -13,7 +14,10 @@ function init() {
 }
 
 function handleFileSelect() {
-    document.getElementById("uploaded").innerHTML = `Selected: ${document.getElementById('fileInput').files[0].name}`;
+    if(document.getElementById('fileInput').files.length>0) {
+        files = document.getElementById('fileInput').files;
+    }
+    document.getElementById("uploaded").innerHTML = `Selected: ${files[0].name}`;
 }
 
 function dragover(event) {
@@ -40,12 +44,12 @@ function dragleave(event) {
 function drop(event) {
     event.preventDefault();
     document.getElementById('drag').classList.remove("border-slate-700");
-    document.getElementById('fileInput').files = event.dataTransfer.files;
+    files = event.dataTransfer.files;
     handleFileSelect();
 }
 
 async function upload() {
-    if (document.getElementById('fileInput').files.length === 0) {
+    if (files.length === 0) {
         send_message("Upload failed", "Please click the upload button and add a file first");
         return;
     }
@@ -61,7 +65,7 @@ async function upload() {
     let i;
     let bar = document.getElementById("myBar");
     let percent_item = document.getElementById("percent");
-    let file = document.getElementById('fileInput').files[0];
+    let file = files[0];
     let url = document.getElementById('urlInput').value;
     let offset = 0;
     let request = await fetch(url);
