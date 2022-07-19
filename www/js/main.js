@@ -167,8 +167,6 @@ async function upload() {
         }
     }
     send_message("Upload Successful", `Yay! To download the file go to <a class="text-blue-500" href="${base}">${base}</a>`);
-    console.log(base);
-    console.log(returns);
 }
 
 function send_message(title, description) {
