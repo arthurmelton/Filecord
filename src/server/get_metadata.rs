@@ -1,4 +1,5 @@
-use std::io::{Write, Read};
+use std::io::{Read, Write};
+
 use flate2::write::ZlibDecoder;
 use urlencoding::decode;
 
@@ -8,9 +9,11 @@ pub fn get_metadata(returns: [u64; 2]) -> Option<(String, u64, Vec<String>)> {
         "https://cdn.discordapp.com/attachments/{}/{}/data",
         returns[0], returns[1]
     ))
-        .call().ok()?
+        .call()
+        .ok()?
         .into_reader()
-        .read_to_end(&mut buffer).ok()?;
+        .read_to_end(&mut buffer)
+        .ok()?;
     let mut writer = Vec::new();
     let mut z = ZlibDecoder::new(writer);
     z.write_all(&buffer).ok()?;

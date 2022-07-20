@@ -1,5 +1,6 @@
 use std::io::Write;
 use std::net::TcpStream;
+
 use crate::utils::asset::Asset;
 
 pub fn send_page(mut stream: TcpStream, path: String) {

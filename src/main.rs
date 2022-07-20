@@ -1,10 +1,11 @@
-mod server;
-use crate::server::new::new;
-mod utils;
-
 use std::env;
 use std::net::TcpListener;
 use std::thread;
+
+use crate::server::new::new;
+
+mod server;
+mod utils;
 
 fn main() {
     let listener = TcpListener::bind(format!(
