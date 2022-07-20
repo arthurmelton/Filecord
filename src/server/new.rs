@@ -32,14 +32,14 @@ pub fn new(mut stream: TcpStream) {
                                     send_to_user(filename, length, ids, channel, stream.try_clone().unwrap());
                                 }
                             },
-                            None => error(stream.try_clone().unwrap(), 404, "Not Found")
+                            None => error(stream.try_clone().unwrap(), 404, "Not Found", response)
                         }
                     },
-                    None => error(stream.try_clone().unwrap(), 400, "Bad Request")
+                    None => error(stream.try_clone().unwrap(), 404, "Bad Request", response)
                 }
             }
         },
-        None => error(stream.try_clone().unwrap(), 400, "Bad Request")
+        None => error(stream.try_clone().unwrap(), 400, "Bad Request", response)
     }
     stream.flush().unwrap();
 }
