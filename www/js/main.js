@@ -84,7 +84,6 @@ async function upload() {
     while (file.size > offset) {
         while (running_count < 5 && file.size > offset) {
             running_count++;
-            //console.log(running_count);
             let go_again = true;
             let index_save = index;
             let offset_save = offset;
@@ -94,6 +93,7 @@ async function upload() {
                 while (go_again) {
                     let done = false;
                     go_again = false;
+                    let now = new Date().getTime();
                     let boundary = "--------";
                     let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
                     for (i = 0; i < 20; i++) {
@@ -125,7 +125,7 @@ async function upload() {
                             percent_item.innerText = `${Math.floor(percent)}%`;
                         }
                         done = true;
-                    }).catch(async function (response) {
+                    }).catch(async function () {
                         go_again = true;
                         done = true;
                     });
@@ -133,7 +133,7 @@ async function upload() {
                         await new Promise(r => setTimeout(r, 100));
                     }
                     if (file.size > offset) {
-                        await new Promise(async r => setTimeout(r, 10000));
+                        await new Promise(async r => setTimeout(r, 10000 - (new Date().getTime() - now)));
                     }
                 }
                 resolve(1);
