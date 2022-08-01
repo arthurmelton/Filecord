@@ -39,7 +39,7 @@ pub fn new(mut stream: TcpStream) {
                             None => error(stream.try_clone().unwrap(), 404, "Not Found", response),
                         }
                     }
-                    None => error(stream.try_clone().unwrap(), 404, "Bad Request", response),
+                    None => error(stream.try_clone().unwrap(), 404, "Not Found", response),
                 }
             }
         }
