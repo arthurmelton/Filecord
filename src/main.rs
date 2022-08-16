@@ -9,7 +9,7 @@ mod utils;
 
 fn main() {
     let listener = TcpListener::bind(format!(
-        "0.0.0.0:{}",
+        "[::]:{}",
         env::var("PORT").unwrap_or("80".to_string())
     ))
         .unwrap();
