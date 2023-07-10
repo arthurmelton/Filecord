@@ -1,3 +1,5 @@
+const discord_file_size = 26214400;
+
 let messages = [];
 let files = [];
 
@@ -14,7 +16,7 @@ function init() {
 }
 
 function handleFileSelect() {
-    if(document.getElementById('fileInput').files.length>0) {
+    if (document.getElementById('fileInput').files.length > 0) {
         files = document.getElementById('fileInput').files;
     }
     document.getElementById("uploaded").innerHTML = `Selected: ${files[0].name}`;
@@ -88,8 +90,8 @@ async function upload() {
             let index_save = index;
             let offset_save = offset;
             index++;
-            offset += 8388608 - (172 + index_save.toString().length);
-            new Promise(async function (resolve) {
+            offset += discord_file_size - (172 + index_save.toString().length);
+            new Promise(async function(resolve) {
                 while (go_again) {
                     let done = false;
                     go_again = false;
@@ -100,20 +102,20 @@ async function upload() {
                         boundary += chars[Math.floor(Math.random() * chars.length)];
                     }
                     let sends = `--${boundary}\r\nContent-Disposition: form-data; name=\"file1\"; filename=\"${"part_" + index_save}\"\r\nContent-Type: application/octet-stream\r\n\r\n`;
-                    let send = new Blob([sends, file.slice(offset_save, offset_save + 8388608 - sends.length - 34), `\r\n--${boundary}--`]);
+                    let send = new Blob([sends, file.slice(offset_save, offset_save + discord_file_size - sends.length - 34), `\r\n--${boundary}--`]);
                     fetch(url, {
                         method: "POST",
                         body: send,
                         headers: {
                             "content-type": `multipart/form-data; boundary=${boundary}`
                         }
-                    }).then(async function (response) {
+                    }).then(async function(response) {
                         let json = JSON.parse(await response.text());
                         if (json["retry_after"]) {
                             go_again = true;
                             await new Promise(async r => setTimeout(r, json["retry_after"]));
                         } else {
-                            actually_done += 8388608 - (137 + index_save.toString().length);
+                            actually_done += discord_file_size - (137 + index_save.toString().length);
                             returns[index_save + 2] = json["attachments"][0]["id"];
                             let percent;
                             if (actually_done / file.size > 1) {
@@ -125,7 +127,7 @@ async function upload() {
                             percent_item.innerText = `${Math.floor(percent)}%`;
                         }
                         done = true;
-                    }).catch(async function () {
+                    }).catch(async function() {
                         go_again = true;
                         done = true;
                     });
@@ -170,15 +172,14 @@ async function upload() {
 }
 
 function send_message(title, description) {
-    if(document.getElementById("modal-title").innerHTML.trim() === "") {
+    if (document.getElementById("modal-title").innerHTML.trim() === "") {
         document.getElementById("popup").classList.remove("ease-in", "duration-200", "opacity-0", "pointer-events-none");
         document.getElementById("popup").classList.add("ease-out", "duration-300", "opacity-100");
         document.getElementById("panel").classList.remove("ease-in", "duration-200", "opacity-0", "translate-y-4", "sm:translate-y-0", "sm:scale-95");
         document.getElementById("panel").classList.add("opacity-100", "translate-y-0", "sm:scale-100", "ease-out", "duration-300");
         document.getElementById("modal-title").innerHTML = title;
         document.getElementById("modal-description").innerHTML = description;
-    }
-    else {
+    } else {
         messages.push({
             title: title,
             description: description
@@ -191,10 +192,10 @@ function remove_message() {
     document.getElementById("popup").classList.remove("ease-out", "duration-300", "opacity-100");
     document.getElementById("panel").classList.add("ease-in", "duration-200", "opacity-0", "translate-y-4", "sm:translate-y-0", "sm:scale-95");
     document.getElementById("panel").classList.remove("opacity-100", "translate-y-0", "sm:scale-100", "ease-out", "duration-300");
-    setTimeout(function () {
+    setTimeout(function() {
         document.getElementById("modal-title").innerHTML = "";
         document.getElementById("modal-description").innerHTML = "";
-        if(messages.length > 0) {
+        if (messages.length > 0) {
             send_message(messages[0].title, messages[0].description);
             messages.shift();
         }
